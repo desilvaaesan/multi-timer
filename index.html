@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Multitimer</title>
+<meta name="description" content="Run several countdowns and stopwatches side by side." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=50 cy=50 r=42 fill=%22none%22 stroke=%22%2334D399%22 stroke-width=%2210%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Multitimer</h1>
+  <button id="addBtn" class="add-btn" type="button">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    New timer
+  </button>
+</header>
+
+<main id="grid" class="grid"></main>
+
+<p id="emptyState" class="empty-state" hidden>
+  Nothing running yet. Add a timer to get started.
+</p>
+
+<!-- Add / edit timer dialog -->
+<dialog id="timerDialog" class="dialog">
+  <form id="timerForm" method="dialog" class="dialog-form">
+    <h2 id="dialogTitle">New timer</h2>
+
+    <label class="field">
+      <span>Label</span>
+      <input type="text" id="f-label" maxlength="24" placeholder="Reading" required autocomplete="off" />
+    </label>
+
+    <div class="field-row">
+      <button type="button" class="mode-toggle" id="modeCountdown" data-mode="countdown" aria-pressed="true">Countdown</button>
+      <button type="button" class="mode-toggle" id="modeStopwatch" data-mode="stopwatch" aria-pressed="false">Count up</button>
+    </div>
+
+    <div class="field-row" id="durationFields">
+      <label class="field small">
+        <span>H</span>
+        <input type="number" id="f-h" min="0" max="23" value="0" inputmode="numeric" />
+      </label>
+      <label class="field small">
+        <span>M</span>
+        <input type="number" id="f-m" min="0" max="59" value="5" inputmode="numeric" />
+      </label>
+      <label class="field small">
+        <span>S</span>
+        <input type="number" id="f-s" min="0" max="59" value="0" inputmode="numeric" />
+      </label>
+    </div>
+
+    <fieldset class="field">
+      <legend>Color</legend>
+      <div id="colorPicker" class="color-picker"></div>
+    </fieldset>
+
+    <label class="field">
+      <span>Icon <span class="hint">optional</span></span>
+      <input type="text" id="f-emoji" maxlength="2" placeholder="☕" autocomplete="off" />
+    </label>
+
+    <div class="dialog-actions">
+      <button type="button" id="cancelBtn" class="btn ghost">Cancel</button>
+      <button type="submit" id="saveBtn" class="btn primary">Add timer</button>
+    </div>
+  </form>
+</dialog>
+
+<template id="cardTemplate">
+  <article class="card" data-id="">
+    <button class="card-delete" type="button" aria-label="Delete timer">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <button class="ring-btn" type="button" aria-label="Start or pause">
+      <svg class="ring" viewBox="0 0 180 180">
+        <circle class="ring-track" cx="90" cy="90" r="78" />
+        <circle class="ring-progress" cx="90" cy="90" r="78" />
+      </svg>
+      <div class="ring-content">
+        <span class="ring-emoji"></span>
+        <span class="ring-time">00:00</span>
+        <span class="ring-label">Label</span>
+      </div>
+    </button>
+    <div class="card-controls">
+      <button class="ctrl reset" type="button">Reset</button>
+    </div>
+  </article>
+</template>
+
+<script src="script.js"></script>
+</body>
+</html>
